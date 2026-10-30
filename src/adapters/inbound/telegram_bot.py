@@ -44,7 +44,11 @@ async def handle_message(
             submit_task.submit,
             request,
         )
-        await update.message.reply_text(result.response)
+        response_text = (result.response or "").strip()
+        if not response_text:
+            response_text = "No se pudo generar una respuesta para la tarea solicitada."
+
+        await update.message.reply_text(response_text)
     except Exception:
         await update.message.reply_text("No pude procesar la tarea. Revisa los logs.")
         raise
